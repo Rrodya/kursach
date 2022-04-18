@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$orange: #FF6600;
+$darkLight: #EDEDED;
+$whiteLight: #F4F4F4;
+$white: #FFFFFF;
+$darkBlack: #363636;
+
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.ordinaryInput{
+  width: 295px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.ordinaryButton{
+  width: 250px;
+  height: 45px;
+  background-color: $orange;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.ordinaryButtonWhite{
+  width: 250px;
+  height: 45px;
+  background-color: $whiteLight;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: $orange;
+  font-family: 'Montserrat', sans-serif;
+}
