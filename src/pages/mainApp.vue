@@ -11,18 +11,18 @@
               ></div>
               <button
                   type="button"
-                  class="ordinaryButtonWhite loginBtn"
+                  class="ordinaryButton loginBtn"
                   @click="goRouter('login')"
               >Login</button>
             </div>
             <div class="btnBox-sign">
               <div
                   class="circleSign"
-                  :class="{animateSign: isOpenSign}"
+                  :class="{animateLogin: isOpenSign}"
               ></div>
               <button
                   type="button"
-                  class="ordinaryButton signBtn"
+                  class="ordinaryButtonWhite signBtn"
                   @click="goRouter('sign')"
               >Sign Up</button>
             </div>
@@ -64,12 +64,13 @@ export default {
 
 
   .background{
+    overflow: hidden;
     background: url('../assets/background.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-      height: 100vh;
+    height: 100vh;
     .container{
       width: 70%;
       margin: 0 auto;
@@ -94,9 +95,6 @@ export default {
           .signBtn{
             margin-top: 1rem;
           }
-          .loginBtn{
-            background-color: $darkLight;
-          }
           button{
             cursor: pointer;
             z-index: 1;
@@ -109,34 +107,43 @@ export default {
 
   .btnBox-login, .btnBox-sign{
     position: relative;
-    z-index: 1;
     .circleLogin{
-      background-color: $darkLight;
+      background-color: $orange;
+
     }
     .circleSign {
-      background-color: $orange;
+      background-color: #EDEDED;
+
     }
   }
+
+
   .circleLogin, .circleSign{
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index:4;
+    z-index:-1;
     opacity: 0;
     height: 10px;
     width: 10px;
     border-radius: 500px;
   }
   .animateLogin{
+    z-index: 2 !important;
     opacity: 1 !important;
     transition: transform .5s ease-in-out;
     transform: scale(200);
-
   }
   .animateSign{
+    z-index: 2 !important;
+
     opacity: 1 !important;
     transition: transform .5s ease-in-out;
     transform: scale(200);
+  }
+
+  .ordinaryButtonWhite{
+    background-color: $darkLight;
   }
 
 

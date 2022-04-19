@@ -18,9 +18,10 @@ body{
 
 .ordinaryInput{
   width: 295px;
-  height: 50px;
+  height: 45px;
   border-radius: 10px;
   border: none;
+  padding: 0 20px;
   outline: none;
   font-size: 14px;
   font-weight: 700;
@@ -41,6 +42,11 @@ body{
   font-family: 'Montserrat', sans-serif;
 }
 
+
+::placeholder{
+  color: #AEAEAE;
+  font-weight: 500;
+}
 .ordinaryButtonWhite{
   width: 250px;
   height: 45px;

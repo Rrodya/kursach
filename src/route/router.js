@@ -23,6 +23,32 @@ const router =  createRouter({
                     name: 'sign'
                 }
             ]
+        },
+        {
+            path: '/',
+            component: () => import('../pages/homePage'),
+            children: [
+                {
+                    path: 'home',
+                    component: () => import('../pages/homeHeader'),
+                    name: 'home'
+                },
+                {
+                    path: 'catalog',
+                    component: () => import('../pages/catalogHeader'),
+                    name: 'catalog'
+                },
+                {
+                    path: 'basket',
+                    component: () => import('../pages/basketHeader'),
+                    name: 'basket'
+                },
+                {
+                    path: 'profile',
+                    component: () => import('../pages/profilePage'),
+                    name: 'profile'
+                }
+            ]
         }
 
     ],
