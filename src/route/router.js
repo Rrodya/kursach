@@ -39,6 +39,16 @@ const router =  createRouter({
                     name: 'catalog'
                 },
                 {
+                    path: 'productList',
+                    component: () => import('../pages/productList'),
+                    name: 'productList'
+                },
+                {
+                  path: 'productCard',
+                  component: () => import('../pages/productCard'),
+                  name: 'productCard'
+                },
+                {
                     path: 'basket',
                     component: () => import('../pages/basketHeader'),
                     name: 'basket'

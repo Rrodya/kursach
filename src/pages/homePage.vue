@@ -1,6 +1,6 @@
 <template>
   <div class="backgroundImage">
-    <div class="background-home">
+      <div class="background-home">
       <div class="home-header">
         <ul class="header-container">
           <li class="itemHeader itemHome" @click="goRoute('home')">Home</li>
@@ -35,7 +35,8 @@ export default {
 }
 .backgroundImage{
   background-color: #EDEDED;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 .home-header{
   height: 80px;
