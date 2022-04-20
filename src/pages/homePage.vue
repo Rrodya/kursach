@@ -29,6 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .section-container{
   width: 40%;
   margin: 0 auto;
