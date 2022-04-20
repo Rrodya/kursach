@@ -59,8 +59,12 @@ const router =  createRouter({
                     name: 'profile'
                 }
             ]
+        },
+        {
+            path: '/order',
+            component: () => import('../pages/orderPage'),
+            name: 'order'
         }
-
     ],
     linkActiveClass: 'active',
     linkExactActiveClass: 'active'

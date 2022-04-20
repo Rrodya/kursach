@@ -52,6 +52,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.homeSection-container{
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
 .salesContent, .popularContent{
   position: relative;
   .title{

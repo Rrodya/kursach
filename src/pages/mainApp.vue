@@ -1,5 +1,6 @@
 <template>
     <div class="background">
+<!--      <div v-if="$route.params.isLogout" class="isOpenMain" :class="{isLogOutAnimate: isOpenMain}"></div>-->
       <div class="container">
         <div class="mainApp-content">
           <p class="mainLogo">HOKKI</p>
@@ -38,8 +39,12 @@ export default {
   data() {
     return {
       isOpenLog: false,
-      isOpenSign: false
+      isOpenSign: false,
+      isOpenMain: false
     }
+  },
+  mounted() {
+    this.isOpenMain = true;
   },
   methods: {
     goRouter(router){
@@ -63,6 +68,7 @@ export default {
 
 
 
+
   .background{
     overflow: hidden;
     background: url('../assets/background.png') no-repeat center center fixed;
@@ -71,6 +77,13 @@ export default {
     -o-background-size: cover;
     background-size: cover;
     height: 100vh;
+    //.startCircle{
+    //  position: fixed;
+    //  overflow: hidden;
+    //  width: 100px;
+    //  height: 100px;
+    //  border-radius: 200px;
+    //}
     .container{
       width: 70%;
       margin: 0 auto;
@@ -109,7 +122,6 @@ export default {
     position: relative;
     .circleLogin{
       background-color: $orange;
-
     }
     .circleSign {
       background-color: #EDEDED;
@@ -145,6 +157,25 @@ export default {
   .ordinaryButtonWhite{
     background-color: $darkLight;
   }
+
+.isOpenMain{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(200);
+  width: 10px;
+  height: 10px;
+  border-radius: 1000px;
+  background-color: #FF6600;
+  transition: transform 20s ease-in-out;
+  z-index: 5;
+}
+
+.isLogOutAnimate{
+  transition: transform 20s ease-in-out;
+
+  transform: translate(-50%, -50%) scale(1);
+}
 
 
 

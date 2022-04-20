@@ -1,15 +1,18 @@
 <template>
   <div class="catalogList">
-    <div
-        class="catalogItem"
-        v-for="catalogItem in catalogList"
-        :key="catalogItem"
-        @click="$router.push({name: 'productList'})"
-    >
-      <p>{{catalogItem.name}}</p>
-      <svg width="5" height="8" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 1L4 4L1 7" stroke="#706F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <p class="catalogList-title">Catalog</p>
+    <div class="catalogList-page">
+      <div
+          class="catalogItem"
+          v-for="catalogItem in catalogList"
+          :key="catalogItem"
+          @click="$router.push({name: 'productList'})"
+      >
+        <p>{{catalogItem.name}}</p>
+        <svg width="5" height="8" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L4 4L1 7" stroke="#706F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +38,15 @@ export default {
 
 <style scoped lang="scss">
 .catalogList{
-  margin-top: 40px;
+  margin-top: 30px;
+  .catalogList-title{
+    font-size: 22px;
+    font-weight: 700;
+    color: #4A4646;
+  }
+  .catalogList-page{
+    margin-top: 30px;
+  }
   .catalogItem{
     width: 100%;
     height: 60px;
