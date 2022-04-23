@@ -25,7 +25,7 @@ const router =  createRouter({
             ]
         },
         {
-            path: '/',
+            path: '/:id',
             component: () => import('../pages/homePage'),
             children: [
                 {

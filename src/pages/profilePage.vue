@@ -91,7 +91,7 @@ export default {
       margin-bottom: 15px;
       color: #4A4646;
       font-weight: 600;
-
+      width: 48%;
     }
   }
   &__logOutBtn{

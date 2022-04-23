@@ -4,11 +4,11 @@
       <p class="mainLogo">HOKKI</p>
       <div class="login-form">
         <div class="form-inputs">
-          <input type="text" class="ordinaryInput inputMail" placeholder="Mail">
-          <input type="password" class="ordinaryInput inputPassword" placeholder="Password">
+          <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Mail">
+          <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Password">
         </div>
         <div class="form-buttons">
-          <button type="button" class="ordinaryButtonWhite login">Login</button>
+          <button type="button" class="ordinaryButtonWhite login" @click="goLogin">Login</button>
           <button type="button" class="sign" @click="goSignUp">Sign Up</button>
         </div>
       </div>
@@ -22,11 +22,31 @@ export default {
   methods:{
     goSignUp(){
       this.$router.push({name: 'sign'})
+    },
+    goLogin(){
+      if(this.mail && this.password){
+        fetch('http://hokki/auth/auth.php', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+
+          body: `mail=${this.mail}&password=${this.password}`
+        }).then(res => res.json()).then(data => this.goAuth(data));
+      }
+    },
+    goAuth(data){
+      console.log(data);
     }
+
   },
   data() {
     return {
       isShow: false,
+      mail: '',
+      password: ''
     }
   },
   mounted() {

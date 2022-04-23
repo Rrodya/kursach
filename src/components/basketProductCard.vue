@@ -47,8 +47,8 @@ export default {
     border-radius: 10px;
 
     img{
-      min-width: 100%;
-      min-height: 100%;
+        min-width: 100%;
+        min-height: 100%;
     }
   }
   .basketCard-info{
