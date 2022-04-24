@@ -1,8 +1,8 @@
 <template>
   <div class="productList-item" @click="goRouter">
-    <img src="../assets/example3.png" alt="">
-    <div class="productList__title">Nulla Lorem </div>
-    <div class="productList__price">500 $</div>
+    <img :src="item.img" alt="">
+<!--    <div class="productList__title">{{item.name}}</div>-->
+    <div class="productList__price">{{item.price}} $</div>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
   props: ['item'],
   methods: {
     goRouter(){
-      this.$router.push({name: 'productCard'})
+      this.$router.push({name: 'productCard', params: {id: this.$route.params.id, idProduct: this.item.id, idCatalog: this.$route.params.idCatalog}})
     }
   }
 }
@@ -23,12 +23,10 @@ export default {
   cursor: pointer;
   position: relative;
   margin-bottom: 40px;
-  border-radius: 14px;
-
-
   img{
     width: 100%;
-    border-radius: 10px;
+    border-radius: 14px;
+
   }
   .productList__title{
     position: absolute;

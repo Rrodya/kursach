@@ -1,12 +1,13 @@
 <template>
   <div class="catalogList">
-    <p class="catalogList-title">Catalog</p>
+    <p class="catalogList-title">
+      Catalog</p>
     <div class="catalogList-page">
       <div
           class="catalogItem"
           v-for="catalogItem in catalogList"
           :key="catalogItem"
-          @click="$router.push({name: 'productList'})"
+          @click="$router.push({name: 'productList', params: {id: $route.params.id, idCatalog: catalogItem.id}})"
       >
         <p>{{catalogItem.name}}</p>
         <svg width="5" height="8" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,19 +21,32 @@
 <script>
 export default {
   name: "catalogHeader.vue",
+  mounted() {
+    fetch('http://hokki/api/catalog/getCatalog.php', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+
+    }).then(res => res.json()).then(data => {
+      this.catalogList = data.info.map(item => {
+        return {
+          id: item.id_catalog,
+          name: item.name
+        }
+      })
+    });
+  },
   data() {
     return {
-      catalogList: [
-        {id: 1, name: 'Kitchen'},
-        {id: 2, name: 'Kitchen'},
-        {id: 3, name: 'Kitchen'},
-        {id: 4, name: 'Kitchen'},
-        {id: 5, name: 'Kitchen'},
-        {id: 6, name: 'Kitchen'},
-        {id: 7, name: 'Kitchen'},
-      ]
+      catalogList: []
     }
   },
+  methods: {
+
+  }
 }
 </script>
 
@@ -43,6 +57,7 @@ export default {
     font-size: 22px;
     font-weight: 700;
     color: #4A4646;
+    cursor: pointer;
   }
   .catalogList-page{
     margin-top: 30px;

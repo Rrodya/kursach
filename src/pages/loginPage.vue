@@ -7,6 +7,7 @@
           <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Mail">
           <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Password">
         </div>
+        <p v-if="unCorrectData" class="unCorrectedTitle">Uncorrected personal information</p>
         <div class="form-buttons">
           <button type="button" class="ordinaryButtonWhite login" @click="goLogin">Login</button>
           <button type="button" class="sign" @click="goSignUp">Sign Up</button>
@@ -25,7 +26,7 @@ export default {
     },
     goLogin(){
       if(this.mail && this.password){
-        fetch('http://hokki/auth/auth.php', {
+        fetch('http://hokki/api/auth/auth.php', {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -38,7 +39,16 @@ export default {
       }
     },
     goAuth(data){
-      console.log(data);
+      if(data.message === 'ok'){
+        this.unCorrectData = false;
+        localStorage.authId = data.id;
+        localStorage.mail = data.mail;
+        localStorage.password = data.password;
+        this.$router.push({name: 'home', params: {id: data.id}});
+      } else if(data.message === 'no') {
+        this.unCorrectData = true;
+        console.log(this.unCorrectData);
+      }
     }
 
   },
@@ -46,7 +56,8 @@ export default {
     return {
       isShow: false,
       mail: '',
-      password: ''
+      password: '',
+      unCorrectData: false,
     }
   },
   mounted() {
@@ -124,6 +135,14 @@ export default {
   100%{
     opacity: 1;
   }
+}
+
+.unCorrectedTitle{
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 10px;
 }
 
 .show{

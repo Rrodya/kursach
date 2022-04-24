@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     goRouter(router){
-      console.log(router);
       if(router == 'login'){
         this.isOpenLog = true;
       } else {

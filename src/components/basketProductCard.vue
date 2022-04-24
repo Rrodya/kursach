@@ -1,21 +1,21 @@
 <template>
 <div class="basketCard-container">
   <div class="basketCard-img">
-    <img src="../assets/example5.png" alt="">
+    <img :src="item.img" alt="">
   </div>
   <div class="basketCard-info">
-    <p class="basketCard-info__price">300 $</p>
-    <p class="basketCard-info__name">Nulla Lorem </p>
-    <p class="basketCard-info__description">Nulla Lorem mollit cupidatat irure...Nulla Lorem mollit cupidatat irure...</p>
+    <p class="basketCard-info__price">{{item.price}}$</p>
+    <p class="basketCard-info__name">{{item.name}}</p>
+    <p class="basketCard-info__description">{{item.description}}...</p>
   </div>
   <div class="basketCard-counter">
-    <div class="basketCard-counter__minus">
+    <div class="basketCard-counter__minus" @click="removeBasket">
       <svg width="8" height="2" viewBox="0 0 8 2" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="8" height="2" rx="1" fill="white"/>
       </svg>
     </div>
-    <p class="basketCard-counter__count">1</p>
-    <div class="basketCard-counter__plus">
+    <p class="basketCard-counter__count">{{getCount}}</p>
+    <div class="basketCard-counter__plus" @click="addBasket">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect y="3" width="8" height="2" rx="1" fill="white"/>
         <rect x="5" width="8" height="2" rx="1" transform="rotate(90 5 0)" fill="white"/>
@@ -28,7 +28,39 @@
 
 <script>
 export default {
-  name: "basketProductCard"
+  props: ['item', 'count'],
+  emits: ['add', 'remove'],
+  data() {
+    return {
+      localBasket: []
+    }
+  },
+  name: "basketProductCard",
+  methods: {
+    removeBasket(){
+      if(this.getCount > 1){
+        console.log(this.localBasket);
+
+        let idx = this.localBasket.indexOf(this.item.id);
+        this.localBasket.splice(idx, 1);
+        console.log(this.localBasket);
+        localStorage.basket = this.localBasket;
+      }
+    },
+    addBasket() {
+      this.localBasket.push(this.item.id);
+      localStorage.basket = this.localBasket;
+    }
+  },
+  computed: {
+    getCount(){
+      let basketCorr = this.localBasket.filter(item => item == this.item.id);
+      return basketCorr.length;
+    }
+  },
+  mounted() {
+    this.localBasket = localStorage.basket.split(',');
+  }
 }
 </script>
 
@@ -45,10 +77,10 @@ export default {
     max-width: 30%;
     overflow: hidden;
     border-radius: 10px;
-
     img{
-        min-width: 100%;
-        min-height: 100%;
+      width: 100%;
+      min-height: 100%;
+      object-fit: cover;
     }
   }
   .basketCard-info{
@@ -65,7 +97,8 @@ export default {
     }
     &__name{
       color: #4A4646;
-      font-size: 14px;
+      font-size: 18px;
+      font-weight: 600;
     }
     &__description{
       color: #706F6F;
@@ -93,6 +126,19 @@ export default {
       color: #FF6600;
     }
   }
+}
 
+p::selection {
+  background: transparent;
+}
+p::-moz-selection {
+  background: transparent;
+}
+
+img::selection {
+  background: transparent;
+}
+img::-moz-selection {
+  background: transparent;
 }
 </style>

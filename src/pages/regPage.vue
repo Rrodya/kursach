@@ -39,7 +39,7 @@ export default {
     },
     signUp(){
       if(this.mail && this.password && this.phone){
-        fetch('http://hokki/auth/reg.php', {
+        fetch('http://hokki/api/auth/reg.php', {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -53,7 +53,7 @@ export default {
     },
     goSignUp(data){
       if(data.message === 'ok'){
-        this.$router.push({name: 'home', params: {id: data.id}})
+        this.$router.push({name: 'main'})
       }
     }
   },

@@ -1,51 +1,54 @@
 <template>
   <div class="homeSection-container">
     <div class="salesContent">
-      <p class="title">Sales</p>
-      <div class="salesContent-box">
-        <div class="salesContent-item" v-for="product in salesProducts" :key="product">
-          <img :src="product.img" alt="">
+      <p class="title">Popular</p>
+      <div class="salesContent-box" v-if="popularProd">
+        <div
+            class="salesContent-item"
+            v-for="(product, index) in popularProd"
+            :key="product"
+            @click="goRoute(index)"
+        >
+          <p>{{popularProd.id}}</p>
+          <img :src="product.img" alt="noImg">
         </div>
       </div>
-      <p class="seeMore">
-        See more
-      </p>
-    </div>
-    <div class="popularContent">
-      <p class="title">Sales</p>
-      <div class="popularContent-box">
-        <div class="salesContent-item" v-for="product in popularProducts" :key="product">
-          <img :src="product.img" alt="">
-        </div>
-      </div>
-      <p class="seeMore">
-        See more
-      </p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    goRoute(index){
+      this.$router.push({name: 'productCard', params: {id: this.$route.params.id, idProduct: this.popularProd[index].id, backPath: 'home'}})
+    }
+  },
+  mounted() {
+    fetch('http://hokki/api/home/popular.php', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      body: `str=${this.str}`
+    }).then(res => res.json()).then(data => {
+      const arrData = data.info;
+      this.popularProd = arrData.map(item => {
+        return {
+          id: item.id_product,
+          img: require(`../assets/img/${item.img}`)
+        }
+      })
+    });
+  },
+
   name: "homeHeader.vue",
   data() {
     return {
-      salesProducts: [
-        {id: 1, img: require('../assets/expample.png')},
-        {id: 2, img: require('../assets/expample.png')},
-        {id: 3, img: require('../assets/expample.png')},
-        {id: 4, img: require('../assets/expample.png')},
-        {id: 5, img: require('../assets/expample.png')},
-        {id: 6, img: require('../assets/expample.png')},
-      ],
-      popularProducts: [
-        {id: 1, img: require('../assets/example2.png')},
-        {id: 2, img: require('../assets/example2.png')},
-        {id: 3, img: require('../assets/example2.png')},
-        {id: 4, img: require('../assets/example2.png')},
-        {id: 5, img: require('../assets/example2.png')},
-        {id: 6, img: require('../assets/example2.png')},
-      ]
+      str: 1,
+      popularProd: false,
     }
   },
 }
@@ -73,14 +76,15 @@ export default {
   }
   .salesContent-box, .popularContent-box{
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
+    column-count: 3;
+    column-gap: 1rem;
+    width: 100%;
     .salesContent-item{
-      width: 30%;
-      margin-bottom: 20px;
+      cursor: pointer;
+      break-inside: avoid;
+      margin-bottom: 1rem;
       img{
+        border-radius: 10px;
         width: 100%;
       }
     }

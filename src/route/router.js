@@ -21,11 +21,12 @@ const router =  createRouter({
                     path: 'sign',
                     component: () => import('../pages/regPage.vue'),
                     name: 'sign'
-                }
+                },
+
             ]
         },
         {
-            path: '/:id',
+            path: '/app',
             component: () => import('../pages/homePage'),
             children: [
                 {
