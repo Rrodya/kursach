@@ -6,6 +6,7 @@
         <div class="form-inputs">
           <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Mail">
           <input v-model="phone" type="text" class="ordinaryInput inputPassword" placeholder="Number">
+          <input v-model="name" type="text" class="ordinaryInput inputName" placeholder="Name">
           <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Password">
           <input
               v-model="confirmPassword"
@@ -47,7 +48,7 @@ export default {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           },
 
-          body: `mail=${this.mail}&phone=${this.phone}&password=${this.password}`
+          body: `mail=${this.mail}&phone=${this.phone}&password=${this.password}&name=${this.name}`
         }).then(res => res.json()).then(data => this.goSignUp(data));
       }
     },
@@ -74,7 +75,8 @@ export default {
       phone: '',
       password: '',
       confirmPassword: '',
-      isConfirmPassword: false
+      isConfirmPassword: false,
+      name: ''
     }
   },
   mounted() {
@@ -116,6 +118,9 @@ export default {
           color: $darkBlack
         }
         .inputPassword{
+          margin-top: 10px;
+        }
+        .inputName{
           margin-top: 10px;
         }
       }

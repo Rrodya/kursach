@@ -2,22 +2,43 @@
   <div class="orderCard">
     <div class="orderCard-left">
       <div class="orderCard-left__image">
-        <img src="../assets/example6.png" alt="">
+        <img :src="item.img" alt="">
       </div>
       <div class="orderCard-mainInfo">
-        <p class="orderCard-mainInfo__name">Sofa Namel</p>
-        <p class="orderCard-mainInfo__price">300 $</p>
+        <p class="orderCard-mainInfo__name">{{item.name}}</p>
+        <p class="orderCard-mainInfo__price">{{ getPrice }} $</p>
       </div>
     </div>
     <div class="orderCard-right">
-      <p class="orderCard-countInfo__count">Count: <span>4</span></p>
+      <p class="orderCard-countInfo__count">Count: <span>{{getCount}}</span></p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "orderProduct"
+  name: "orderProduct",
+  data() {
+    return {
+      localBasket: ''
+    }
+  },
+  props: ['item'],
+  created() {
+    this.localBasket = localStorage.basket.split(',');
+  },
+  mounted() {
+
+  },
+  computed: {
+    getPrice() {
+      return this.getCount * this.item.price;
+    },
+    getCount(){
+      let basketCorr = this.localBasket.filter(item => item == this.item.id);
+      return basketCorr.length;
+    }
+  }
 }
 </script>
 
@@ -43,6 +64,11 @@ export default {
       height: 100%;
       overflow: hidden;
       border-radius: 9px;
+      img{
+        width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+      }
     }
     .orderCard-mainInfo{
       width: 65%;

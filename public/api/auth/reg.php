@@ -15,8 +15,9 @@ if(isset($_POST['mail']) && isset($_POST['phone']) && isset($_POST['password']))
     $mail = $_POST['mail'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
+    $name = $_POST['name'];
 //    $db->query("INSERT INTO `users` (`mail`, `phone`, `password`, `idOrder`, `isAuth`) VALUES ('$mail', '$phone', '$password', '', '0')");
-    $query = mysqli_query($db, "INSERT INTO `users` (`email`, `phone`, `password`, `idOrder`, `isAuth`) VALUES ('$mail', '$phone', '$password', null, '0')");
+    $query = mysqli_query($db, "INSERT INTO `users` (`name`, `email`, `phone`, `password`, `idOrder`, `isAuth`) VALUES ('$name', '$mail', '$phone', '$password', null, '0')");
 
     $idUser = mysqli_fetch_array(mysqli_query($db, "SELECT * FROM `users` WHERE `email` = '$mail'"));
     $res = ['id' => $idUser['id'], 'message' => 'ok'];

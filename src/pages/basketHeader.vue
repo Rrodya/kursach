@@ -6,7 +6,10 @@
         <p class="top-totalPrice__text">Price:</p>
         <div class="top-totalPrice__price">
           <p class="top-totalPrice__priceText">1800 $</p>
-          <button type="button" class="ordinaryButtonWhite top-totalPrice__buyBtn">Booking</button>
+          <button
+              type="button"
+              @click="$router.push({name: 'order', params: {id: $route.params.id}})"
+              class="ordinaryButtonWhite top-totalPrice__buyBtn">Booking</button>
         </div>
       </div>
     </div>

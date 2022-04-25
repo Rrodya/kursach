@@ -1,18 +1,40 @@
 <template>
   <div class="profile">
       <div class="profile-title">
-        <p class="profile-title__name">Muchamed Abdul</p>
+        <p class="profile-title__name">{{messageText ? messageText : (profileInfo.name ? profileInfo.name : 'Добрай день, как вас зовут?')}}</p>
         <button
             type="button"
             class="profile-title__saveBtn ordinaryButton"
             v-if="isChange"
+            @click="sendChanges"
         >Save changes</button>
       </div>
+      <p v-if="isWarning">Input all necessary inputs</p>
       <div class="profile-personalInfo">
-        <input type="text" placeholder="Name" class="ordinaryInput profile-personalInfo__name">
-        <input type="text" placeholder="Mail" class="ordinaryInput profile-personalInfo__mail">
-        <input type="text" placeholder="Phone" class="ordinaryInput profile-personalInfo__phone">
-        <input type="text" placeholder="Password  " class="ordinaryInput profile-personalInfo__password">
+        <input
+            v-model="sendProfileInfo.name"
+            @input="setPersonalInfo()"
+            type="text"
+            :placeholder="profileInfo.name ? profileInfo.name : 'Name'"
+            class="ordinaryInput profile-personalInfo__name">
+        <input
+            v-model="sendProfileInfo.email"
+            @input="setPersonalInfo()"
+            :placeholder="profileInfo.email ? profileInfo.email : 'Mail'"
+            type="text"
+            class="ordinaryInput profile-personalInfo__mail">
+        <input
+            v-model="sendProfileInfo.phone"
+            @input="setPersonalInfo()"
+            type="text"
+            :placeholder="profileInfo.phone ? profileInfo.phone : 'Phone'"
+            class="ordinaryInput profile-personalInfo__phone">
+        <input
+            v-model="sendProfileInfo.password"
+            @input="setPersonalInfo()"
+            type="password"
+            placeholder="Password"
+            class="ordinaryInput profile-personalInfo__password">
       </div>
       <div class="profile__logOutBtn">
 <!--        <div-->
@@ -30,15 +52,92 @@ export default {
   data() {
     return {
       isChange: false,
-      isOpenLog: false
+      isOpenLog: false,
+      profileInfo: '',
+      messageText: '',
+      sendProfileInfo: {
+        name: null,
+        email: null,
+        phone: null,
+        password: null
+      },
+      isWarning: false
     }
+  },
+
+  mounted() {
+    let id = localStorage.authId;
+    fetch('http://hokki/api/profile/getInfoUser.php', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      body: `id=${id}`
+    })
+        .then(res => res.json())
+        .then(data => {
+          if(data.message === 'ok'){
+            this.profileInfo = data.info;
+          } else {
+            this.messageText = data.text;
+          }
+        });
   },
   methods: {
     logOut(){
       this.isOpenLog = true;
+      localStorage.authId = '';
+      localStorage.password = '';
+      localStorage.maim = '';
       setTimeout(() => {
         this.$router.push({name: 'main', params: {isLogout: 1}})
       }, 500)
+    },
+    setPersonalInfo(){
+      console.log('true');
+      this.isChange = true;
+    },
+    sendChanges(){
+      if(!this.sendProfileInfo.email){
+        this.isWarning = true;
+      } else if(!this.sendProfileInfo.phone){
+        this.isWarning = true;
+      } else if(!this.sendProfileInfo.password){
+        this.isWarning = true;
+      } else {
+        this.sendData();
+      }
+    },
+    sendData(){
+      this.isWarning = false;
+      let {name, email, phone, password} = this.sendProfileInfo;
+      if(!name){
+        name = this.profileInfo.name;
+      } else if(email == '' && email == null){
+        email = this.profileInfo.email;
+      } else if(phone == '' && phone == null){
+        phone = this.profileInfo.phone;
+      } else if(password == '' && password == null){
+        password = this.profileInfo.password;
+      }
+      let id = localStorage.authId
+      fetch('http://hokki/api/profile/insertInfo.php', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: `id=${id}&name=${name}&email=${email}&phone=${phone}&password=${password}`
+      })
+          .then(res => res.json())
+          .then(data => {
+            if(data.message === 'ok'){
+              location.reload();
+            }
+          })
     }
   }
 }

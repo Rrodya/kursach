@@ -29,7 +29,6 @@
 <script>
 export default {
   props: ['item', 'count'],
-  emits: ['add', 'remove'],
   data() {
     return {
       localBasket: []
@@ -39,8 +38,7 @@ export default {
   methods: {
     removeBasket(){
       if(this.getCount > 1){
-        console.log(this.localBasket);
-
+        this.localBasket = localStorage.basket.split(',');
         let idx = this.localBasket.indexOf(this.item.id);
         this.localBasket.splice(idx, 1);
         console.log(this.localBasket);
@@ -48,17 +46,23 @@ export default {
       }
     },
     addBasket() {
+      this.localBasket = localStorage.basket.split(',')
+
       this.localBasket.push(this.item.id);
+      console.log(this.localBasket);
+
       localStorage.basket = this.localBasket;
+
     }
   },
+
   computed: {
     getCount(){
       let basketCorr = this.localBasket.filter(item => item == this.item.id);
       return basketCorr.length;
     }
   },
-  mounted() {
+  created() {
     this.localBasket = localStorage.basket.split(',');
   }
 }
