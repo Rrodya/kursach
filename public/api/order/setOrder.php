@@ -10,12 +10,13 @@ $phone= $_POST['phone'];
 $idProducts = $_POST['idProducts'];
 $price = $_POST['price'];
 
-//$checkInsertOrder = mysqli_query($db, "INSERT INTO `orders`  )
 $queryInsertOrder = mysqli_query($db, "INSERT INTO `orders` (`id_user`, `name`, `phone`, `email`, `price`) VALUES ('$id', '$name', '$phone', '$email', '$price')");
-if(!$queryInsertOrder){
-    $res = ['message2' => 'no', 'info' => $queryInsertOrder];
-    echo json_encode($res);
-}
+//if(!$queryInsertOrder){
+//    $res = ['message2'     => 'no', 'info' => $queryInsertOrder];
+//    echo json_encode($res);
+//}
+
+
 $checkInfoOrder = mysqli_query($db, "SELECT `id_order` FROM `orders` WHERE `id_user` = '$id'");
 $idOrder = mysqli_fetch_all($checkInfoOrder);
 $idOrder = $idOrder[count($idOrder) - 1];
@@ -27,6 +28,16 @@ foreach($arrIdProducts as &$item){
     $queryInsertOrderProduct = mysqli_query($db, "INSERT INTO `orderingproducts` (`id_order`, `id_product`) VALUES ('$idOrder[0]', '$item')");
 }
 
+
+
+$subject = "=?utf-8?B?".base64_encode("Тестовое сообщение")."?=";
+$headers = "From: $email\r\nReply-to: $email\r\nContent-type: text/html;charset=uft-8\r\n";
+$message = "Dear ".$name." Thank you, your order has been placed, after 10 calendar days you can come to the nearest warehouse and pick it up. Order's ID: ". $idOrder[0];
+
+mail($email, $subject, $message, $headers);
+
 $res = ['message' => 'ok', 'idOrder' => $idOrder[0]];
 echo json_encode($res);
+
+
 

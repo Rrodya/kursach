@@ -1,13 +1,23 @@
 <template>
-  <div class="background-login" @click="click">
+  <div class="background-login">
     <div class="content" :class="{show: isShow}" >
       <p class="mainLogo">HOKKI</p>
       <div class="reg-form">
         <div class="form-inputs">
-          <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Mail">
-          <input v-model="phone" type="text" class="ordinaryInput inputPassword" placeholder="Number">
+          <input
+              v-model="mail"
+              type="text"
+              class="ordinaryInput inputMail"
+              :class="{notCorrect: unCorrectMail}"
+              placeholder="Mail">
+          <input
+              v-model="phone"
+              type="text"
+              class="ordinaryInput inputPassword"
+              :class="{notCorrect: unCorrectPhone}"
+              placeholder="Phone">
           <input v-model="name" type="text" class="ordinaryInput inputName" placeholder="Name">
-          <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Password">
+          <input v-model="password" type="password" id="pass" class="ordinaryInput inputPassword" placeholder="Password">
           <input
               v-model="confirmPassword"
               type="password"
@@ -15,11 +25,13 @@
               placeholder="Confirm password"
               :class="{notCorrect: isConfirmPassword}"
           >
+          <label v-if="unCorrectPass" class="labelPass" for="pass">Пароль должен содержить минимум 1 заглавную букву и число</label>
+
         </div>
 <!--        <p class="confirmPassword" v-if="isConfirmPassword">Input the same password</p>-->
 
         <div class="form-buttons">
-          <button type="button" class="ordinaryButtonWhite signUp" @click="signUp">Sign Up</button>
+          <button type="button" class="ordinaryButtonWhite signUp" @click="validEmail">Sign Up</button>
           <button type="button" class="login" @click="goLogin">Login</button>
         </div>
       </div>
@@ -32,6 +44,36 @@
 export default {
   name: "regPage",
   methods: {
+    validEmail(){
+
+      let regMail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      let regPhone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+      let regPass = /(?=.*[0-9])(?=.*[a-z])[0-9a-z]/g;
+
+      if(this.mail.match(regMail) === null) {
+        console.log('mail');
+        this.unCorrectMail = true;
+        return false;
+      } else if(this.phone.match(regPhone) === null) {
+        this.unCorrectMail = false;
+        this.unCorrectPhone = true;
+        console.log('phone');
+        return false
+      } else if(this.password.match(regPass) === null){
+        console.log(this.password.match(regPass));
+        console.log(this.password);
+        this.unCorrectMail = false;
+        this.unCorrectPhone = false;
+        this.unCorrectPass = true;
+
+        return false
+      }
+      else {
+        this.unCorrectMail = false;
+        this.unCorrectPhone = false;
+        this.signUp();
+      }
+    },
     goLogin(){
       this.$router.push({name: 'login'})
     },
@@ -76,7 +118,10 @@ export default {
       password: '',
       confirmPassword: '',
       isConfirmPassword: false,
-      name: ''
+      name: '',
+      unCorrectMail: false,
+      unCorrectPhone: false,
+      unCorrectPass: false
     }
   },
   mounted() {
@@ -185,5 +230,13 @@ export default {
 .show{
   opacity: 1;
   animation: fadeIn .4s ease-in-out;
+}
+
+
+.labelPass{
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #FF6600;
 }
 </style>

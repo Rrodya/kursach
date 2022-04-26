@@ -9,7 +9,7 @@ $phone = $_POST['phone'];
 $password = $_POST['password'];
 //"UPDATE `users` SET `isAuth` = 1 where `email` = '$mail' and `password` = '$password'"
 //$check = mysqli_query($db, "UPDATE `users` SET (`email`, `phone`, `password`, `idOrder`, `isAuth`) VALUES ('$email', '$phone', '$password', null, '0')");
-$check = mysqli_query($db, "UPDATE `users` SET  `name` = '$name', `email` = '$email', `phone` = '$phone', `password` = '$password', `idOrder` = null,  `isAuth` = 0 WHERE `id` = '$id'");
+$check = mysqli_query($db, "UPDATE `users` SET  `name` = '$name', `email` = '$email', `phone` = '$phone', `password` = '$password' WHERE `id` = '$id'");
 
 if($check == 1){
     $res = ['message' => 'ok'];
