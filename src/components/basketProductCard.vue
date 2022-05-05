@@ -4,7 +4,7 @@
     <img :src="item.img" alt="">
   </div>
   <div class="basketCard-info">
-    <p class="basketCard-info__price">{{item.price}}$</p>
+    <p class="basketCard-info__price">{{item.price}} ₽</p>
     <p class="basketCard-info__name">{{item.name}}</p>
     <p class="basketCard-info__description">{{item.description}}...</p>
   </div>

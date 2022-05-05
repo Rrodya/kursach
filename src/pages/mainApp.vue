@@ -14,7 +14,7 @@
                   type="button"
                   class="ordinaryButton loginBtn"
                   @click="goRouter('login')"
-              >Login</button>
+              >Авторизация </button>
             </div>
             <div class="btnBox-sign">
               <div
@@ -25,7 +25,7 @@
                   type="button"
                   class="ordinaryButtonWhite signBtn"
                   @click="goRouter('sign')"
-              >Sign Up</button>
+              >Регистрация</button>
             </div>
           </div>
         </div>

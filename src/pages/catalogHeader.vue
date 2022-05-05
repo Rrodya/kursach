@@ -1,7 +1,7 @@
 <template>
   <div class="catalogList">
     <p class="catalogList-title">
-      Catalog</p>
+      Каталог</p>
     <div class="catalogList-page">
       <div
           class="catalogItem"

@@ -2,7 +2,7 @@
   <div class="productList-item" @click="goRouter">
     <img :src="item.img" alt="">
 <!--    <div class="productList__title">{{item.name}}</div>-->
-    <div class="productList__price">{{item.price}} $</div>
+    <div class="productList__price">{{item.price}} ₽</div>
   </div>
 </template>
 

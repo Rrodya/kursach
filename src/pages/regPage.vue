@@ -9,20 +9,20 @@
               type="text"
               class="ordinaryInput inputMail"
               :class="{notCorrect: unCorrectMail}"
-              placeholder="Mail">
+              placeholder="Почта">
           <input
               v-model="phone"
               type="text"
               class="ordinaryInput inputPassword"
               :class="{notCorrect: unCorrectPhone}"
-              placeholder="Phone">
-          <input v-model="name" type="text" class="ordinaryInput inputName" placeholder="Name">
-          <input v-model="password" type="password" id="pass" class="ordinaryInput inputPassword" placeholder="Password">
+              placeholder="Телефон">
+          <input v-model="name" type="text" class="ordinaryInput inputName" placeholder="Имя">
+          <input v-model="password" type="password" id="pass" class="ordinaryInput inputPassword" placeholder="Пароль">
           <input
               v-model="confirmPassword"
               type="password"
               class="ordinaryInput confirmPassword inputPassword"
-              placeholder="Confirm password"
+              placeholder="Подтвердите пароль"
               :class="{notCorrect: isConfirmPassword}"
           >
           <label v-if="unCorrectPass" class="labelPass" for="pass">Пароль должен содержить минимум 1 заглавную букву и число</label>
@@ -31,8 +31,8 @@
 <!--        <p class="confirmPassword" v-if="isConfirmPassword">Input the same password</p>-->
 
         <div class="form-buttons">
-          <button type="button" class="ordinaryButtonWhite signUp" @click="validEmail">Sign Up</button>
-          <button type="button" class="login" @click="goLogin">Login</button>
+          <button type="button" class="ordinaryButtonWhite signUp" @click="validEmail">Регистрация</button>
+          <button type="button" class="login" @click="goLogin">Авторизация</button>
         </div>
       </div>
     </div>

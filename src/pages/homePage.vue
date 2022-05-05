@@ -3,11 +3,11 @@
       <div class="background-home">
       <div class="home-header">
         <ul class="header-container">
-          <li class="itemHeader itemHome" @click="goRoute('home')">Home</li>
-          <li class="itemHeader itemCatalog" @click="goRoute('catalog')">Catalog</li>
+          <li class="itemHeader itemHome" @click="goRoute('home')">Главная</li>
+          <li class="itemHeader itemCatalog" @click="goRoute('catalog')">Каталог</li>
           <li class="itemHeader itemLogo">HOKKI</li>
-          <li class="itemHeader itemBasket" @click="goRoute('basket')">Basket</li>
-          <li class="itemHeader itemProfile" @click="goRoute('profile')">Profile</li>
+          <li class="itemHeader itemBasket" @click="goRoute('basket')">Корзина</li>
+          <li class="itemHeader itemProfile" @click="goRoute('profile')">Профиль</li>
         </ul>
       </div>
       <div class="section-container">
@@ -21,10 +21,14 @@
 export default {
   name: "homePage",
    mounted() {
-
-    if(this.$route.params.id){
-      console.log(this.$route.params.id);
-    } else {
+     if(!localStorage.authId){
+       this.$router.push({name: 'main'});
+     } else {
+       this.$router.push({name: 'home', params: {id: localStorage.authId}});
+     }
+    // if(this.$route.params.id){
+    //   console.log(this.$route.params.id);
+    // } else {
       // const res = await fetch('http://hokki/api/home/checkAuth.php', {
       //   method: 'POST',
       //   mode: 'cors',
@@ -36,11 +40,10 @@ export default {
       // })
       // const data = await res.json();
       // if(data.message !== 'ok'){
-        this.$router.push({name: 'main'});
       // } else {
       //   this.$router.push({name: 'home', params: {id: localStorage.authId}});
       // }
-    }
+    // }
       //ч  else {
     //   if(localStorage.authId){
     //     if(!this.checkAuth()){

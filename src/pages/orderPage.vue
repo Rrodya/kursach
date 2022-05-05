@@ -1,24 +1,24 @@
 <template>
   <div class="makingOrder">
     <div v-if="isComplete" class="orderComplete">
-      <p>Thank you, your order has been placed, after 10 calendar days you can come to the nearest warehouse and pick it up.<br/> Your order's ID is "{{idOrder}}"</p>
+      <p>Спасибо, ваш заказ оформлен, через 10 календарных дней вы можете приехать на ближайший склад и забрать его.<br/> Более подробнная информация о заказе был отправлена на почту: {{orderInfo.email}}</p>
       <button
           type="button"
           class="ordinaryButton"
-          @click="$router.push({name: 'home', params: {id: $route.params.id}})"
-      >Go home!</button>
+          @click="downloadCheck"
+      >Скачать чек</button>
     </div>
     <div v-else class="makingOrder-container">
-      <div class="nameOrder">
+      <div class="nameOrder" @click="$router.push({name: 'basket', params: {id: $route.params.id}})">
         <svg width="8" height="12" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 1L1 4L4 7" stroke="#363636  " stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <p>Some order</p>
+        <p>Оформление заказа</p>
       </div>
 
       <div class="makingOrder-info">
         <div class="nameOrderItem nameOrder-name">
-          <p class="nameOrder-nameDesc">Name:</p>
+          <p class="nameOrder-nameDesc">Имя:</p>
           <p class="nameOrder-nameText nameOrder-text">{{ orderInfo.name }}</p>
         </div>
         <div class="nameOrderItem nameOrder-email">
@@ -26,24 +26,24 @@
           <p class="nameOrder-nameText nameOrder-text">{{ orderInfo.email }}</p>
         </div>
         <div class="nameOrderItem nameOrder-phone">
-          <p class="nameOrder-nameDesc">Phone:</p>
+          <p class="nameOrder-nameDesc">Телефон:</p>
           <p class="nameOrder-nameText nameOrder-text">{{orderInfo.phone}}</p>
         </div>
       </div>
       <div class="orderList">
-        <p class="orderList-name">Your order</p>
+        <p class="orderList-name">Ваш заказ</p>
         <div class="orderList-orders">
           <order-product v-for="item in basketInfo" :key="item" :item="item"/>
         </div>
       </div>
       <div class="orderList-totalPrice">
-        <p class="orderList-totalPrice__text">Price</p>
-        <p class="orderList-totalPrice__price">{{ getTotalPrice }} $</p>
+        <p class="orderList-totalPrice__text">Цена</p>
+        <p class="orderList-totalPrice__price">{{ getTotalPrice }} ₽</p>
       </div>
       <button
           type="button"
           @click="sendOrder"
-          class="orderList-totalPrice__bookingButton ordinaryButton">Booking</button>
+          class="orderList-totalPrice__bookingButton ordinaryButton">Заказать</button>
     </div>
   </div>
 </template>
@@ -53,7 +53,24 @@ import orderProduct from "@/components/orderProduct";
 export default {
   name: "orderPage",
   methods: {
+    downloadCheck(){
+      let id = localStorage.authId;
+      window.location.href = `http://hokki/api/order/createExel.php?id=${id}`;
+
+      // fetch('http://hokki/api/order/downloadCheck.php', {
+      //   method: 'POST',
+      //   mode: 'cors',
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      //   },
+      //   body: `id=${localStorage.authId}`
+      // })
+      //     .then(res => res.json())
+      //     .then(data => console.log(data));
+    },
     sendOrder(){
+      // window.location.href = 'http://hokki/api/order/setOrder.php';
       let {id, name, email, phone} = this.orderInfo;
       let idProducts = localStorage.basket.split(',');
       fetch('http://hokki/api/order/setOrder.php', {
@@ -69,6 +86,7 @@ export default {
           .then(data => {
             if(data.message === 'ok'){
               this.isComplete = true;
+              console.log('comp');
               this.idOrder = data.idOrder;
             }
           });

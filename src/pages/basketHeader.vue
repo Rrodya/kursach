@@ -1,17 +1,11 @@
 <template>
   <div v-if="!basketEmpty" class="basketPage-container">
     <div class="basketPage-top">
-      <div class="basketPage-top__title">Basket</div>
-      <div class="top-totalPrice">
-        <p class="top-totalPrice__text">Price:</p>
-        <div class="top-totalPrice__price">
-          <p class="top-totalPrice__priceText">1800 $</p>
+      <div class="basketPage-top__title">Корзина</div>
           <button
               type="button"
               @click="$router.push({name: 'order', params: {id: $route.params.id}})"
-              class="ordinaryButtonWhite top-totalPrice__buyBtn">Booking</button>
-        </div>
-      </div>
+              class="ordinaryButtonWhite top-totalPrice__buyBtn">Заказать</button>
     </div>
     <div class="basketPage-productList">
       <basket-product-card
@@ -23,7 +17,7 @@
   </div>
   <div v-else class="basketPage-container">
     <p class="emptyTitle">
-      Basket is empty
+      Корзина пуста
     </p>
   </div>
 </template>
@@ -40,8 +34,12 @@ export default {
     }
   },
   computed: {
-
+    totalPrice(){
+      let total = this.basketListInfo.reduce((sum, item) => sum + Number(item.price), 0);
+      return total;
+    }
   },
+
 
   mounted() {
     if(localStorage.basket){
@@ -60,6 +58,7 @@ export default {
         },
         body: `str=${sendBody}`
       }).then(res => res.json()).then(data => {
+        console.log(data.info);
         if(data.message === 'ok'){
           this.basketListInfo = data.info;
           this.basketListInfo = data.info.map(item => {
@@ -68,7 +67,7 @@ export default {
               name: item.name,
               price: item.price,
               img: require(`../assets/img/${item.img}`),
-              description: item.description
+              description: item.description.slice(1, 30)
             }
           })
         }
@@ -139,5 +138,13 @@ export default {
   font-weight: 700;
   color: #363636;
 }
+
+.ordinaryButtonWhite{
+  background-color: #FF6600;
+  color: white;
+  font-weight: 600;
+
+}
+
 
 </style>

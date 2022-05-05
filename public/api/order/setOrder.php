@@ -28,12 +28,12 @@ foreach($arrIdProducts as &$item){
     $queryInsertOrderProduct = mysqli_query($db, "INSERT INTO `orderingproducts` (`id_order`, `id_product`) VALUES ('$idOrder[0]', '$item')");
 }
 
+//
 
-
+//
 $subject = "=?utf-8?B?".base64_encode("Тестовое сообщение")."?=";
 $headers = "From: $email\r\nReply-to: $email\r\nContent-type: text/html;charset=uft-8\r\n";
-$message = "Dear ".$name." Thank you, your order has been placed, after 10 calendar days you can come to the nearest warehouse and pick it up. Order's ID: ". $idOrder[0];
-
+$message = "<h3>Здравствуйте $name.</h3> <br/> <p>Спасибо вам за ваш заказ, вы можете запбрать через 10 календарных дней в ближайшем складе от вас. ID вашего заказа: <b>$idOrder[0]</b>. <br/> Заказ на общую сумму: <b>$price ₽</b></p>";
 mail($email, $subject, $message, $headers);
 
 $res = ['message' => 'ok', 'idOrder' => $idOrder[0]];

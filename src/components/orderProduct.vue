@@ -6,7 +6,7 @@
       </div>
       <div class="orderCard-mainInfo">
         <p class="orderCard-mainInfo__name">{{item.name}}</p>
-        <p class="orderCard-mainInfo__price">{{ getPrice }} $</p>
+        <p class="orderCard-mainInfo__price">{{ getPrice }} ₽</p>
       </div>
     </div>
     <div class="orderCard-right">

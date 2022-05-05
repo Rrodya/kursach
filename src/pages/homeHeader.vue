@@ -1,7 +1,7 @@
 <template>
   <div class="homeSection-container">
     <div class="salesContent">
-      <p class="title">Popular</p>
+      <p class="title">Популярные</p>
       <div class="salesContent-box" v-if="popularProd">
         <div
             class="salesContent-item"

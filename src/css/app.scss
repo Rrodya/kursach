@@ -28,7 +28,16 @@ body{
   color: white;
   font-family: 'Montserrat', sans-serif;
 }
-
+.adminButton{
+  min-width: 100px;
+  height: 40px;
+  border-radius: 100px;
+  border: none;
+  background-color: $whiteLight;
+  outline: none;
+  color: $orange;
+  font-family: 'Montserrat', sans-serif;
+}
 .ordinaryButton{
   width: 250px;
   height: 45px;

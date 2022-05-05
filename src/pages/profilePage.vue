@@ -7,9 +7,9 @@
             class="profile-title__saveBtn ordinaryButton"
             v-if="isChange"
             @click="sendChanges"
-        >Save changes</button>
+        >Сохранить</button>
       </div>
-      <p v-if="isWarning">Input all necessary inputs</p>
+      <p v-if="isWarning">Введите все необходимые поля</p>
       <div class="profile-personalInfo">
         <input
             v-model="sendProfileInfo.name"
@@ -90,9 +90,15 @@ export default {
       this.isOpenLog = true;
       localStorage.authId = '';
       localStorage.password = '';
-      localStorage.maim = '';
+      localStorage.mail = '';
+      localStorage.basket = '';
+
       setTimeout(() => {
         this.$router.push({name: 'main', params: {isLogout: 1}})
+        localStorage.mail = '';
+        localStorage.password = '';
+        localStorage.authId = '';
+        localStorage.basket = '';
       }, 500)
     },
     setPersonalInfo(){

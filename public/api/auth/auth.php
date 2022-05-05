@@ -20,13 +20,21 @@ if(isset($_POST['mail']) && isset($_POST['password'])){
 
     $checkResult = mysqli_fetch_array($check);
 
+
+
 //    $res[0]['error'] = mysqli_fetch_array($check);
     if($checkResult){
-        $query = mysqli_query($db, "UPDATE `users` SET `isAuth` = 1 where `email` = '$mail' and `password` = '$password'");
-        $_SESSION['id'] = $checkResult[0];
-        $response = ['id' => mysqli_fetch_array($check)['id'], 'message' => 'ok', 'sessionId' => $_SESSION['id']];
-        $res = ['first' => $_SESSION['id'], 'id' => $checkResult['id'], 'message' => 'ok', 'mail' => $checkResult['email'], 'password' => $checkResult['password']];
-        echo json_encode($res);
+        if($checkResult['is_admin'] == 1){
+            $res = ['message' => 'ok', 'id' => $checkResult['id'], 'isAdmin' => $checkResult['is_admin']];
+            echo json_encode($res);
+        } else {
+            $query = mysqli_query($db, "UPDATE `users` SET `isAuth` = 1 where `email` = '$mail' and `password` = '$password'");
+            $_SESSION['id'] = $checkResult[0];
+            $response = ['id' => mysqli_fetch_array($check)['id'], 'message' => 'ok', 'sessionId' => $_SESSION['id']];
+            $res = ['first' => $_SESSION['id'], 'id' => $checkResult['id'], 'message' => 'ok', 'mail' => $checkResult['email'], 'password' => $checkResult['password']];
+            echo json_encode($res);
+        }
+
     } else {
         $res= ['message' => 'no'];
         echo json_encode($res);

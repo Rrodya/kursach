@@ -9,7 +9,7 @@
      <img :src="productInfo.img" alt="">
      <div class="productCard-mainPartBox">
        <div class="productCard-mainPartBoxPrice">
-         <p class="productCard-price">{{productInfo.price}}</p>
+         <p class="productCard-price">{{productInfo.price}} ₽</p>
          <p class="productCard-name">{{productInfo.name}}</p>
        </div>
        <button

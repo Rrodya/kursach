@@ -4,13 +4,13 @@
       <p class="mainLogo">HOKKI</p>
       <div class="login-form">
         <div class="form-inputs">
-          <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Mail">
-          <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Password">
+          <input v-model="mail" type="text" class="ordinaryInput inputMail" placeholder="Почта">
+          <input v-model="password" type="password" class="ordinaryInput inputPassword" placeholder="Пароль">
         </div>
-        <p v-if="unCorrectData" class="unCorrectedTitle">Uncorrected personal information</p>
+        <p v-if="unCorrectData" class="unCorrectedTitle">Не правильные данные</p>
         <div class="form-buttons">
-          <button type="button" class="ordinaryButtonWhite login" @click="goLogin">Login</button>
-          <button type="button" class="sign" @click="goSignUp">Sign Up</button>
+          <button type="button" class="ordinaryButtonWhite login" @click="goLogin">Авторизация</button>
+          <button type="button" class="sign" @click="goSignUp">Регистрация</button>
         </div>
       </div>
     </div>
@@ -40,11 +40,17 @@ export default {
     },
     goAuth(data){
       if(data.message === 'ok'){
-        this.unCorrectData = false;
-        localStorage.authId = data.id;
-        localStorage.mail = data.mail;
-        localStorage.password = data.password;
-        this.$router.push({name: 'home', params: {id: data.id}});
+        if(data.isAdmin){
+          this.$router.push({name: 'adminOrderPage', params: {id: data.id}});
+          console.log('hello');
+        } else {
+          this.unCorrectData = false;
+          localStorage.authId = data.id;
+          localStorage.mail = data.mail;
+          localStorage.password = data.password;
+          this.$router.push({name: 'home', params: {id: data.id}});
+        }
+
       } else if(data.message === 'no') {
         this.unCorrectData = true;
         console.log(this.unCorrectData);
