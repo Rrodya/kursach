@@ -1,5 +1,6 @@
 <template>
 <div class="basketCard-container">
+  <div class="deleteCard" @click="deleteElement">Удалить</div>
   <div class="basketCard-img">
     <img :src="item.img" alt="">
   </div>
@@ -29,6 +30,7 @@
 <script>
 export default {
   props: ['item', 'count'],
+  emits: ['remove', 'checkTotal'],
   data() {
     return {
       localBasket: []
@@ -36,23 +38,25 @@ export default {
   },
   name: "basketProductCard",
   methods: {
+    deleteElement(){
+      this.$emit('remove', this.item.id);
+    },
     removeBasket(){
       if(this.getCount > 1){
         this.localBasket = localStorage.basket.split(',');
         let idx = this.localBasket.indexOf(this.item.id);
         this.localBasket.splice(idx, 1);
-        console.log(this.localBasket);
         localStorage.basket = this.localBasket;
       }
+      this.$emit('checkTotal');
     },
     addBasket() {
       this.localBasket = localStorage.basket.split(',')
 
       this.localBasket.push(this.item.id);
-      console.log(this.localBasket);
 
       localStorage.basket = this.localBasket;
-
+      this.$emit('checkTotal');
     }
   },
 
@@ -77,6 +81,18 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  position: relative;
+  .deleteCard{
+    position: absolute;
+    font-size: 14px;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+    padding: 5px 10px;
+    background-color: #F4F4F4;
+    color: #FF6600;
+    border-radius: 10px;
+  }
   .basketCard-img{
     max-width: 30%;
     overflow: hidden;
@@ -130,6 +146,7 @@ export default {
       color: #FF6600;
     }
   }
+
 }
 
 p::selection {

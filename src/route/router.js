@@ -4,7 +4,7 @@ const router =  createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: 'check',
+            path: '/check',
             component: () => import('../pages/valueCheck'),
             name: 'check'
         },

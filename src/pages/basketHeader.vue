@@ -5,13 +5,15 @@
           <button
               type="button"
               @click="$router.push({name: 'order', params: {id: $route.params.id}})"
-              class="ordinaryButtonWhite top-totalPrice__buyBtn">Заказать</button>
+              class="ordinaryButtonWhite top-totalPrice__buyBtn">Заказать <span>{{totalPrice}}₽</span></button>
     </div>
     <div class="basketPage-productList">
       <basket-product-card
           v-for="item in basketListInfo"
           :key="item"
           :item="item"
+          @remove="removeElement"
+          @checkTotal="getTotalPrice"
       />
     </div>
   </div>
@@ -30,23 +32,42 @@ export default {
     return {
       basketListStr: [],
       basketListInfo: [],
-      basketEmpty: true
+      basketEmpty: true,
+      totalPrice: 0,
     }
   },
   computed: {
-    totalPrice(){
-      let total = this.basketListInfo.reduce((sum, item) => sum + Number(item.price), 0);
-      return total;
-    }
+
   },
-
-
-  mounted() {
-    if(localStorage.basket){
+  methods: {
+    getTotalPrice(){
+      let total = 0;
+      this.basketListInfo.forEach(item => {
+        let price = Number(item.price);
+        localStorage.basket.split(',').forEach(itemLocal => {
+          if(itemLocal == item.id){
+            total = total + price;
+          }
+        })
+      })
+      // let total = this.basketListInfo.reduce((sum, item) => sum + Number(item.price), 0);
+      this.totalPrice = total;
+    },
+    removeElement(id){
+      let localBasket = localStorage.basket.split(',');
+      let newBasket = localBasket.filter(item => item !== id);
+      localStorage.basket = newBasket.join(',');
+      if(localStorage.basket){
+        this.request()
+      } else {
+        this.basketEmpty = true;
+      }
+      this.getTotalPrice();
+    },
+    request(){
       this.basketListStr = [...localStorage.basket.split(',')];
       let basketSendData = this.basketListStr.filter((item, index) => this.basketListStr.indexOf(item) == index);
       this.basketEmpty = false
-      console.log(basketSendData);
       let sendBody = basketSendData.join(',');
 
       fetch('http://hokki/api/basket/getBasket.php', {
@@ -58,7 +79,6 @@ export default {
         },
         body: `str=${sendBody}`
       }).then(res => res.json()).then(data => {
-        console.log(data.info);
         if(data.message === 'ok'){
           this.basketListInfo = data.info;
           this.basketListInfo = data.info.map(item => {
@@ -71,7 +91,15 @@ export default {
             }
           })
         }
+        this.getTotalPrice();
+
       });
+    }
+  },
+
+  mounted() {
+    if(localStorage.basket){
+      this.request()
     } else {
       this.basketEmpty = true;
     }
@@ -93,6 +121,11 @@ export default {
     font-weight: 700;
     color: #4A4646;
     width: 20%;
+  }
+  .top-totalPrice__buyBtn{
+    font-size: 14px;
+    cursor: pointer;
+    height: 35px;
   }
   .top-totalPrice{
     display: flex;
@@ -116,11 +149,7 @@ export default {
         color: #FFFFFF;
 
       }
-      .top-totalPrice__buyBtn{
-        font-size: 14px;
-        cursor: pointer;
-        height: 35px;
-      }
+
     }
   }
 }
