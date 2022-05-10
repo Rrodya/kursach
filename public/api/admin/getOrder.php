@@ -2,10 +2,11 @@
 
 
 $db = include '../connect.php';
+$str = $_POST['str'];
+
 
 //$checkOrder = mysqli_query($db, "SELECT * FROM `orders`, `orderingproducts` WHERE `orders`.`id_order` = `orderingproducts`.`id_order`");
-$checkOrder = mysqli_query($db, "SELECT * FROM `orders`, `orderingproducts`, `products` WHERE `orders`.`id_order` = `orderingproducts`.`id_order` AND `orderingproducts`.`id_product` = `products`.`id_product`;");
-
+$checkOrder = mysqli_query($db, "SELECT * FROM `orders`, `orderingproducts`, `products` WHERE `orders`.`id_order` = `orderingproducts`.`id_order` AND `orderingproducts`.`id_product` = `products`.`id_product` LIMIT 0, $str");
 $orderCheck = mysqli_fetch_all($checkOrder);
 
 $infoOrder = [];

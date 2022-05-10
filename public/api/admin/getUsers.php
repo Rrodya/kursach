@@ -1,8 +1,8 @@
 <?php
 
 $db = include '../connect.php';
-
-$checkUsers = mysqli_query($db, "SELECT * FROM `users`");
+$str = $_POST['str'];
+$checkUsers = mysqli_query($db, "SELECT * FROM `users` LIMIT 0, $str");
 
 $usersInfo = mysqli_fetch_all($checkUsers);
 

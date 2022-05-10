@@ -23,6 +23,10 @@
         </div>
       </div>
     </div>
+    <div class="moreBtn">
+      <button class="ordinaryButton" @click="seeMore">Еще</button>
+
+    </div>
   </div>
 </template>
 
@@ -32,22 +36,34 @@ export default {
   name: "adminOrderPage",
   data() {
     return {
-      orders: ''
+      orders: '',
+      str: 20
+    }
+  },
+  methods: {
+    seeMore(){
+      this.str = this.str + 20;
+      this.sendReq();
+
+    },
+    sendReq(){
+      fetch('http://hokki/api/admin/getOrder.php', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: `str=${this.str}`
+      })
+          .then(res => res.json())
+          .then(data => {
+            this.orders = data.info;
+          })
     }
   },
   created() {
-    fetch('http://hokki/api/admin/getOrder.php', {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-    })
-        .then(res => res.json())
-        .then(data => {
-          this.orders = data.info;
-        })
+    this.sendReq();
   }
 }
 </script>
@@ -67,6 +83,18 @@ export default {
   border-radius: 10px;
   .order-itemLeft{
     width: 40%;
+  }
+}
+.moreBtn{
+  width: 250px;
+  margin: 20px auto;
+  .ordinaryButton{
+    width: 100%;
+    cursor: pointer;
+    transition: all .1s linear;
+  }
+  .ordinaryButton:hover{
+    transform: scale(1.1);
   }
 }
 </style>

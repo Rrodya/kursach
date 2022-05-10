@@ -55,7 +55,7 @@ export default {
   methods: {
     downloadCheck(){
       let id = localStorage.authId;
-      window.location.href = `http://hokki/api/order/createExel.php?id=${id}`;
+      window.location.href = `http://hokki/api/order/pdf.php?id=${id}`;
 
       // fetch('http://hokki/api/order/downloadCheck.php', {
       //   method: 'POST',

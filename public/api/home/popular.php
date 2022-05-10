@@ -2,10 +2,10 @@
 $db = include '../connect.php';
 
 $str = $_POST['str'];
-$strMax = $str * 20;
-$strMin = $strMax  - 19;
+//$strMax = $str * 20;
+//$strMin = $strMax  - 19;
 
-$check = mysqli_query($db, "SELECT `id_product`, `img` FROM `products` WHERE `isPopular` = '1' AND `id_product` >= '$strMin' AND `id_product` <= '$strMax'");
+$check = mysqli_query($db, "SELECT `id_product`, `img` FROM `products` WHERE `isPopular` = '1'");
 if(empty($check)){
     die('is empty');
 }

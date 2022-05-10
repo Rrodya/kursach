@@ -1,7 +1,7 @@
 <?php
 $db = include '../connect.php';
-
-$check = mysqli_query($db, "SELECT * FROM `products`");
+$str = $_POST['str'];
+$check = mysqli_query($db, "SELECT * FROM `products` LIMIT 0, $str");
 
 $checkProd = mysqli_fetch_all($check);
 

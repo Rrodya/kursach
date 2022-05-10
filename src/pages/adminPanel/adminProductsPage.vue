@@ -21,6 +21,10 @@
         </div>
       </div>
     </div>
+    <div class="moreBtn">
+      <button class="ordinaryButton" @click="seeMore">Еще</button>
+
+    </div>
   </div>
 </template>
 
@@ -29,13 +33,18 @@ export default {
   name: "adminProductsPage",
   data() {
     return {
-      products: ''
+      products: '',
+      str: 10,
     }
   },
   mounted() {
     this.getProduts();
   },
   methods: {
+    seeMore(){
+      this.str = this.str + 10;
+      this.getProduts();
+    },
     deletProd(id){
       fetch('http://hokki/api/admin/deleteProd.php', {
         method: 'POST',
@@ -55,12 +64,13 @@ export default {
     },
     getProduts() {
       fetch('http://hokki/api/admin/getProducts.php', {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
+        body: `str=${this.str}`
       })
           .then(res => res.json())
           .then(data => {
@@ -137,6 +147,18 @@ export default {
         }
       }
     }
+  }
+}
+.moreBtn{
+  width: 250px;
+  margin: 20px auto;
+  .ordinaryButton{
+    width: 100%;
+    cursor: pointer;
+    transition: all .1s linear;
+  }
+  .ordinaryButton:hover{
+    transform: scale(1.1);
   }
 }
 </style>

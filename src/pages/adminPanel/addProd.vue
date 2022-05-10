@@ -12,11 +12,11 @@
         <input v-model="sendData.name" placeholder="Имя товара" type="text" class="ordinaryInput">
       </div>
       <div  class="inputPrice-box inputBox">
-        <label v-if="priceUncorrect" for="price" class="articul">Слишком большое число</label>
+<!--        <label v-if="!priceUncorrect" for="price" class="articul">Введите правильно</label>-->
         <input name="price" v-model="sendData.price"  placeholder="Цена " type="text" class="ordinaryInput">
       </div>
       <div class="inputArticul-box inputBox">
-        <label v-if="articulUncorrect" for="articul" class="articulUncorrect">Артикуль должен содержать 6 симвоолв</label>
+        <label v-if="!articulUncorrect" for="articul" class="articulUncorrect">Артикуль должен содержать меншье 5  символов</label>
         <input v-model="sendData.articul" @input="validInfo" placeholder="Артикуль" input="articul" type="text" class="ordinaryInput">
       </div>
       <div class="input-catalog inputBox">
@@ -27,7 +27,11 @@
       <div class="inputDescription-box inputBox">
         <textarea placeholder="Описание товара" v-model="sendData.description" class="ordinaryInput"></textarea>
       </div>
-      <p v-if="selectCatalog" class="unCorrectCatalog">Заполните все данные</p>
+      <div class="inputIsPopular">
+        <input id="isPopular" name="isPopular" type="checkbox" v-model="isPopular">
+        <label for="isPopular">Этот товар популярный?</label>
+      </div>
+      <p v-if="selectCatalog" class="unCorrectCatalog">Ошибка в заполненных данных</p>
       <button class="ordinaryButton" @click="sendDataInfo">Добавить товар</button>
     </div>
   </div>
@@ -39,22 +43,34 @@ export default {
 
   methods: {
     validInfo(){
-      let regArt = /^\d{6,6}$/;
+      let regArt = /^\d{6}$/;
       let regPrice = /^\d{1,10}$/;
-      if(this.sendData.articul.match(regArt) === null){
-        this.articulUncorrect = true;
+      console.log(this.sendData.articul.length);
+      console.log(this.sendData.articul);
+      if(this.sendData.articul.match(regArt) === null && this.sendData.articul.length < 7){
+        this.articulUncorrect = true
+        this.selectCatalog = true;
+        console.log('art');
+
       } else if(this.sendData.price.match(regPrice)){
         this.priceUncorrect = true;
+        this.selectCatalog = true;
+        this.articulUncorrect = false;
+        console.log('price');
+
         console.log('un');
       }
       else {
+        this.selectCatalog = false;
+        console.log('ok');
+
         this.priceUncorrect = false;
         this.articulUncorrect = false;
       }
     },
     sendDataInfo(){
-      let {name, img, price, description, articul, catalog} = this.sendData;
-      if(!catalog || !name || !price || !description || !articul || !img){
+      let {name, img, price, description, articul, catalog, isPopular} = this.sendData;
+      if(!catalog || !name || !price || !description || !articul || !img || !this.articulUncorrect){
         this.selectCatalog = true;
       } else {
         this.selectCatalog = false;
@@ -66,7 +82,7 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
-        body: `name=${name}&img=${img}&price=${price}&description=${description}&articul=${articul}&catalog=${catalog}`
+        body: `name=${name}&img=${img}&price=${price}&description=${description}&articul=${articul}&catalog=${catalog}&popular=${isPopular}`
       })
           .then(res => res.json(res))
           .then(data => {
@@ -84,7 +100,7 @@ export default {
   data() {
     return {
       priceUncorrect: false,
-      articulUncorrect: false,
+      articulUncorrect: true,
       selectCatalog: false,
       catalog: false,
       textImg: 'Выбрать изображение',
@@ -94,7 +110,9 @@ export default {
         description: '',
         articul: '',
         img: '',
-        catalog: ''
+        catalog: '',
+        isPopular: false,
+
       }
     }
   },
@@ -227,6 +245,18 @@ export default {
 .activeCatalog{
   background-color: #FF6600;
   color: white;
+}
 
+.inputIsPopular{
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  input{
+    width: 15px;
+    height: 15px;
+  }
+  label{
+    margin-left: 20px;
+  }
 }
 </style>
