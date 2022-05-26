@@ -37,10 +37,13 @@ $pdf->SetFont('Arial');
 // устанавливаем цвет шрифта
 $pdf->SetTextColor(0,0,0);
 // устанавливаем размер шрифта
-$pdf->SetFontSize(15);
 
 // добавляем текст
+$pdf->SetFontSize(25);
 
+$pdf->SetXY(150,10);
+$pdf->Write(0,iconv('utf-8', 'windows-1251',"Чек заказа"));
+$pdf->SetFontSize(15);
 
 $pdf->SetXY(10,10);
 $pdf->Write(0,iconv('utf-8', 'windows-1251',"Номер заказа: $id_order"));
